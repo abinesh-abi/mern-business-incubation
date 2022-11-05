@@ -8,6 +8,20 @@ module.exports = {
       .catch(error=>reject(error))
     });
   },
+  changeApplicationStatus:(_id,status)=>{
+    return new Promise((resolve, reject) => {
+      ApplicatinForm.updateOne({_id},{status})
+      .then(data=>resolve(data))
+      .catch(error=>reject(error))
+    })
+  },
+  getAcceptedCompaies:()=>{
+    return new Promise((resolve, reject) => {
+      ApplicatinForm.find({status:'accepted'},{company_name:1})
+      .then(data=>resolve(data))
+      .catch(error=>reject(error))
+    })
+  },
   getSlotDetails:()=>{
     return new Promise((resolve, reject) => {
       Slots.find().then(data=>resolve(data))
@@ -15,13 +29,13 @@ module.exports = {
     })
   },
   updataSlot:(feald,index,company,isAlloted)=>{
-    console.log({feald,index,company,isAlloted})
     return new Promise((resolve, reject) => {
       Slots.updateOne({},{$set:{[`${feald}.${index}.company`]:company,[`${feald}.${index}.isAlloted`]:isAlloted}})
       .then(data=>resolve(data))
       .catch(error=>reject(error))
     })
-  }
+  },
+
 };
 
 // [

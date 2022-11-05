@@ -2,7 +2,7 @@ var express = require("express");
 let bcrypt = require("bcrypt");
 const { createUserToken, validateUsertoken } = require("../auth/userAuth");
 const { findAllusers, findUserPaginated, findUserById, updateUserById, } = require("../controllers/user");
-const { getAllApplications, getSlotDetails, updataSlot } = require("../controllers/admin");
+const { getAllApplications, getSlotDetails, updataSlot, changeApplicationStatus, getAcceptedCompaies } = require("../controllers/admin");
 var router = express.Router();
 
 let admin = {
@@ -109,17 +109,29 @@ router.patch('/updateSlote',(req,res)=>{
       isAlloted
     } = req.body
 
-  console.log({feald,index,company,isAlloted},'helloooooo++++++++++++')
-  // let company ='this is a id'
-  // let isAlloted = true
-  // let index = 0
-  // let feald = 'A'
-  updataSlot(feald,index,company,isAlloted).then(data=>console.log(data,'updatedddddddddddddd'))
-  .catch(error =>console.log(error,'erro'))
+  updataSlot(feald,index,company,isAlloted).then(data=>res.json({status:true,data}))
+  .catch(error =>res.json({status:false,message:"internal server error"}))
   } catch (error) {
-    console.log(error)
+    res.json({status:false,message:"internal server error"})
   }
-  console.log("hi there")
+})
+router.patch('/changeApplicatinStatus',async(req,res)=>{
+  try {
+    let {id,status} = req.body
+   let data = await changeApplicationStatus(id,status)
+    res.json({status:true,data})
+  } catch (error) {
+    res.json({status:false,message:"internal server error"})
+  }
+})
+
+router.get('/acceptedCompanies',async(req,res)=>{
+  try {
+    let data = await getAcceptedCompaies()
+    res.json({status:true,data})
+  } catch (error) {
+    res.json({status:false,message:"internal server error"})
+  }
 })
 
 module.exports = router;

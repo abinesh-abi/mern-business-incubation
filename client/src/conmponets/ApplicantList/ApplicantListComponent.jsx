@@ -2,17 +2,25 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import CONFIG from "../../config/config";
 
 function ApplicantListComponent() {
   let [applications, setApplications] = useState([]);
 
-  useEffect(() => {
+  function getApplications(params) {
     axios.get(`${CONFIG.SERVER_URL}/admin/applicationList`).then(({ data }) => {
       setApplications(data.data);
     });
+  }
+  useEffect(() => {
+    getApplications()
   }, []);
-  console.log(applications);
+function changeApplicationStaus(id,status){
+    axios.patch(`${CONFIG.SERVER_URL}/admin/changeApplicatinStatus`,{id,status}).then(({ data }) => {
+      getApplications()
+    });
+}
   return (
     <>
       <section className="ftco-section">
@@ -205,10 +213,43 @@ function ApplicantListComponent() {
                               (function () {
                                 if (application.status === "pending") {
                                   return (
-                                    <button className="btn btn-danger">
+                                    // <button className="btn btn-danger">
+                                    //   pending
+                                    // </button>
+                                    <div className="dropdown">
+                                      <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                       pending
-                                    </button>
+                                      </button>
+                                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li onClick={()=>changeApplicationStaus(application._id,"accepted")}><Link className="dropdown-item" >Accept</Link></li>
+                                        <li onClick={()=>changeApplicationStaus(application._id,"removed")}><Link className="dropdown-item" >Reject</Link></li>
+                                      </ul>
+                                    </div>
                                   );
+                                }else if(application.status === "accepted"){
+                                  return(
+                                    <div className="dropdown">
+                                      <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                      Accepted
+                                      </button>
+                                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        {/* <li ><Link className="dropdown-item" >Remove</Link></li> */}
+                                        <li onClick={()=>changeApplicationStaus(application._id,"removed")}><Link className="dropdown-item" >Reject</Link></li>
+                                      </ul>
+                                    </div>
+                                  )
+                                }else if(application.status === "removed"){
+                                  return(
+                                    <div className="dropdown">
+                                      <button className="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                      Rejected
+                                      </button>
+                                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li onClick={()=>changeApplicationStaus(application._id,"accepted")}><Link className="dropdown-item" >Accept</Link></li>
+                                        {/* <li ><Link className="dropdown-item" >Accept</Link></li> */}
+                                      </ul>
+                                    </div>
+                                  )
                                 }
                               })()
                             }

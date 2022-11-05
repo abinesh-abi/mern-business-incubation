@@ -250,7 +250,7 @@ function ApplySlotsFrom() {
                 {...register("team_and_background", {
                   required: true,
                   minLength: 4,
-                  maxLength: 20,
+                  maxLength: 500,
                 })}
               />
               <span className="text-danger">
@@ -261,7 +261,7 @@ function ApplySlotsFrom() {
                   <span>this feild must morethan or equal to 4 Character</span>
                 )}
                 {errors.team_and_background?.type === "maxLength" && (
-                  <span>this feild must less than 20 Character</span>
+                  <span>this feild must less than 500 Character</span>
                 )}
               </span>
             </div>
@@ -272,7 +272,7 @@ function ApplySlotsFrom() {
                 {...register("company_and_products", {
                   required: true,
                   minLength: 4,
-                  maxLength: 20,
+                  maxLength: 500,
                 })}
               />
               <span className="text-danger">
@@ -283,7 +283,7 @@ function ApplySlotsFrom() {
                   <span>this feild must morethan or equal to 4 Character</span>
                 )}
                 {errors.company_and_products?.type === "maxLength" && (
-                  <span>this feild must less than 20 Character</span>
+                  <span>this feild must less than 500 Character</span>
                 )}
               </span>
             </div>
@@ -294,7 +294,7 @@ function ApplySlotsFrom() {
                 {...register("problem", {
                   required: true,
                   minLength: 4,
-                  maxLength: 20,
+                  maxLength: 500,
                 })}
               />
               <span className="text-danger">
@@ -305,7 +305,7 @@ function ApplySlotsFrom() {
                   <span>this feild must morethan or equal to 4 Character</span>
                 )}
                 {errors.problem?.type === "maxLength" && (
-                  <span>this feild must less than 20 Character</span>
+                  <span>this feild must less than 500 Character</span>
                 )}
               </span>
             </div>
@@ -316,7 +316,7 @@ function ApplySlotsFrom() {
                 {...register("solution", {
                   required: true,
                   minLength: 4,
-                  maxLength: 20,
+                  maxLength: 500,
                 })}
               />
               <span className="text-danger">
@@ -327,7 +327,7 @@ function ApplySlotsFrom() {
                   <span>this feild must morethan or equal to 4 Character</span>
                 )}
                 {errors.solution?.type === "maxLength" && (
-                  <span>this feild must less than 20 Character</span>
+                  <span>this feild must less than 500 Character</span>
                 )}
               </span>
             </div>
@@ -338,7 +338,7 @@ function ApplySlotsFrom() {
                 {...register("value_proposition", {
                   required: true,
                   minLength: 4,
-                  maxLength: 20,
+                  maxLength: 500,
                 })}
               />
               <span className="text-danger">
@@ -349,7 +349,7 @@ function ApplySlotsFrom() {
                   <span>this feild must morethan or equal to 4 Character</span>
                 )}
                 {errors.value_proposition?.type === "maxLength" && (
-                  <span>this feild must less than 20 Character</span>
+                  <span>this feild must less than 500 Character</span>
                 )}
               </span>
             </div>
@@ -383,7 +383,7 @@ function ApplySlotsFrom() {
                 {...register("competitive_advantage", {
                   required: true,
                   minLength: 4,
-                  maxLength: 20,
+                  maxLength: 500,
                 })}
               />
               <span className="text-danger">
@@ -394,7 +394,7 @@ function ApplySlotsFrom() {
                   <span>this feild must morethan or equal to 4 Character</span>
                 )}
                 {errors.competitive_advantage?.type === "maxLength" && (
-                  <span>this feild must less than 20 Character</span>
+                  <span>this feild must less than 500 Character</span>
                 )}
               </span>
             </div>
@@ -405,7 +405,7 @@ function ApplySlotsFrom() {
                 {...register("revenue_model", {
                   required: true,
                   minLength: 4,
-                  maxLength: 20,
+                  maxLength: 500,
                 })}
               />
               <span className="text-danger">
@@ -416,7 +416,7 @@ function ApplySlotsFrom() {
                   <span>this feild must morethan or equal to 4 Character</span>
                 )}
                 {errors.revenue_model?.type === "maxLength" && (
-                  <span>this feild must less than 20 Character</span>
+                  <span>this feild must less than 500 Character</span>
                 )}
               </span>
             </div>
@@ -427,7 +427,7 @@ function ApplySlotsFrom() {
                 {...register("market_size", {
                   required: true,
                   minLength: 4,
-                  maxLength: 20,
+                  maxLength: 500,
                 })}
               />
               <span className="text-danger">
@@ -438,7 +438,7 @@ function ApplySlotsFrom() {
                   <span>this feild must morethan or equal to 4 Character</span>
                 )}
                 {errors.market_size?.type === "maxLength" && (
-                  <span>this feild must less than 20 Character</span>
+                  <span>this feild must less than 500 Character</span>
                 )}
               </span>
             </div>
@@ -451,7 +451,7 @@ function ApplySlotsFrom() {
                 {...register("market_plan", {
                   required: true,
                   minLength: 4,
-                  maxLength: 20,
+                  maxLength: 500,
                 })}
               />
               <span className="text-danger">
@@ -462,11 +462,11 @@ function ApplySlotsFrom() {
                   <span>this feild must morethan or equal to 4 Character</span>
                 )}
                 {errors.market_plan?.type === "maxLength" && (
-                  <span>this feild must less than 20 Character</span>
+                  <span>this feild must less than 500 Character</span>
                 )}
               </span>
             </div>
-            <div class="form-check">
+            <div className="form-check">
               <label>Type of Incubation needed</label>
               <p className="text-danger">
                 {errors.incubation_type?.type === "required" && (
@@ -508,7 +508,7 @@ function ApplySlotsFrom() {
                 {...register("proposal", {
                   required: true,
                   minLength: 4,
-                  maxLength: 20,
+                  maxLength: 500,
                 })}
               />
               <span className="text-danger">
@@ -519,7 +519,7 @@ function ApplySlotsFrom() {
                   <span>this feild must morethan or equal to 4 Character</span>
                 )}
                 {errors.proposal?.type === "maxLength" && (
-                  <span>this feild must less than 20 Character</span>
+                  <span>this feild must less than 500 Character</span>
                 )}
               </span>
             </div>

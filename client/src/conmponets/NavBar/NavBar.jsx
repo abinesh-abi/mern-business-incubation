@@ -7,7 +7,9 @@ function NavBar({admin}) {
   // let adminDetail = useSelector(state => state)
   let navigate = useNavigate()
   function logout() {
-    localStorage.removeItem('adminToken')
+    admin ? localStorage.removeItem('adminToken') :
+      localStorage.removeItem('userToken')
+    
     // navigate('/admin/login')
   }
   return (
@@ -31,9 +33,20 @@ function NavBar({admin}) {
   </button>
     <div className="btn-group dropstart">
   <ul className="dropdown-menu">
-    <li><Link className="dropdown-item" to="/login">User Login</Link></li>
+    <li>
+      {
+        admin ? <Link className="dropdown-item" to="/login">User Login</Link> :
+          <Link className="dropdown-item" to="/admin/login">Admin Login</Link>
+      }
+      </li>
     <li><hr className="dropdown-divider"/></li>
-    <li><Link className="dropdown-item" to='/admin/login' onClick={logout}>Logout</Link></li>
+    <li>
+      {
+        admin ? <Link className="dropdown-item" to='/admin/login' onClick={logout}>Logout</Link>:
+        <Link className="dropdown-item" to='/login' onClick={logout}>Logout</Link>
+      }
+      
+      </li>
   </ul>
 </div>
 </div>
