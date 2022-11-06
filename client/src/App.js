@@ -7,6 +7,7 @@ import ApplicantList from "./conmponets/ApplicantList/ApplicantList";
 import UserHome from "./conmponets/user/UserHome";
 import Usermanagement from "./conmponets/UserManagement/UserManagement";
 import ApplySlotsFrom from "./conmponets/ApplySlots/ApplySlotsForm";
+import EditUser from "./conmponets/userEdit/EditUser";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/admin/sheduleEvents" element={<ScheduleEvents />} />
         <Route path="/admin/usermanagement" element={<Usermanagement />} />
         <Route path="/admin/login" element={<Login admin="true" />} />
+        <Route path="/admin/editUser/:id" element={<EditUser admin="true" />} />
       </Routes>
     </BrowserRouter>
   );

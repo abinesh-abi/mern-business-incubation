@@ -1,7 +1,7 @@
 var express = require("express");
 let bcrypt = require("bcrypt");
 const { createUserToken, validateUsertoken } = require("../auth/userAuth");
-const { findAllusers, findUserPaginated, findUserById, updateUserById, } = require("../controllers/user");
+const { findAllusers, findUserPaginated, findUserById, updateUserById, isEmailExits, } = require("../controllers/user");
 const { getAllApplications, getSlotDetails, updataSlot, changeApplicationStatus, getAcceptedCompaies } = require("../controllers/admin");
 var router = express.Router();
 
@@ -60,6 +60,16 @@ router.get('/getUsers',async(req,res)=>{
   }
 })
 
+router.get('/getUserById/:id',async(req,res)=>{
+  try {
+    let {id} = req.params
+    let data = await findUserById(id)
+    res.json({status:true,data})
+  } catch (error) {
+      res.json({status:false,message:"Internal Server Error"})
+  }
+})
+
 router.get('/getUserPaginated/:id',async(req,res)=>{
    try {
         // Adding Pagination
@@ -72,6 +82,23 @@ router.get('/getUserPaginated/:id',async(req,res)=>{
       res.json({status:false,message:"Internal Server Error"})
     }
 })
+
+router.post('/editUser',async(req,res)=>{
+  try {
+    let {_id,data} = req.body
+
+    let isEmailTaken = await isEmailExits(_id,data.email)
+    if (isEmailTaken) {
+     res.json({status:false,message:"This email already taken"})
+    }else{
+      let result = await updateUserById(_id,data)
+      res.json({status:true,data:result})
+    }
+  } catch (error) {
+    res.json({status:false,message:"Internal Server Error"})
+  }
+})
+
 router.patch('/banOrUnban',async(req,res)=>{
   try {
     let user = await findUserById(req.body.id)

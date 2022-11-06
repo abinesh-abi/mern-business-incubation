@@ -38,6 +38,13 @@ module.exports = {
     .catch(error=>resolve(error))
     })
   },
+  isEmailExits:(_id,email)=>{
+    return new Promise((resolve, reject) => {
+      User.findOne({_id:{$ne:_id},email})
+      .then(data=>resolve(data))
+      .catch(error=>reject(error))
+    })
+  },
   updateUserById:(_id,obj)=>{
     return new Promise((resolve, reject) => {
       User.updateOne({_id},{$set:{...obj}})

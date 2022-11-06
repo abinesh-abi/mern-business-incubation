@@ -1,13 +1,13 @@
 import axios from "axios";
 import React from "react";
-import { useCallback } from "react";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import CONFIG from "../../config/config";
 
 function UserManagementComponent() {
   let [usersList, serUsersList] = useState([]);
 
-  useEffect(() => {
+  function getUsers(){
     axios.get(`${CONFIG.SERVER_URL}/admin/getUsers`).then((response) => {
       serUsersList(response.data.data);
     });
@@ -17,19 +17,24 @@ function UserManagementComponent() {
     //   .then(({ data }) => {
     //     serUsersList(data.data)
     //   });
+  }
+
+  useEffect(() => {
+    getUsers()
   }, [usersList.isBaned]);
 
   function banOrUnban(id) {
     axios.patch(`${CONFIG.SERVER_URL}/admin/banOrUnban`,{id})
     .then(({data})=>{
       if (data.status) {
-        serUsersList(usersList)
+      getUsers()
       }
     })
 
   }
 
   return (
+    <>
     <section className="ftco-section">
       <div className="container">
         <div className="row justify-content-center">
@@ -46,6 +51,7 @@ function UserManagementComponent() {
                     <th>#</th>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Edit</th>
                     <th>Ban/Unban</th>
                   </tr>
                 </thead>
@@ -56,6 +62,9 @@ function UserManagementComponent() {
                         <th scope="row">{index+1}</th>
                         <td>{users.name}</td>
                         <td>{users.email}</td>
+                        <td>
+                          <Link to={`/admin/editUser/${users._id}`} className="btn btn-primary">Edit User</Link>
+                        </td>
                         <td>
                           {
                             users.isBaned?
@@ -73,6 +82,8 @@ function UserManagementComponent() {
         </div>
       </div>
     </section>
+      
+      </>
   );
 }
 
