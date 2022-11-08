@@ -52,6 +52,13 @@ module.exports = {
       .catch(error=>reject(error))
     })
   },
+  getApplicatinByUserId: (userid) => {
+    return new Promise((resolve, reject) => {
+      ApplicatinForm.find({userid}).then(data=>resolve(data))
+      .catch(error=>reject(error))
+    });
+  },
+
   submitApplication:(obj)=>{
     return new Promise((resolve, reject) => {
      new ApplicatinForm(obj).save()

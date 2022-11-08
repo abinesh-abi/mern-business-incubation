@@ -2,13 +2,15 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom'
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import CONFIG from "../../config/config";
 import "./ApplySlotForm.css";
 
 function ApplySlotsFrom() {
-  let navigator = useNavigate()
-
+  const user = useSelector((state) => state.user.value);
+  let navigator = useNavigate();
+  let [image, setImage] = useState(null);
   // form handling
   const {
     register,
@@ -16,26 +18,50 @@ function ApplySlotsFrom() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    // uplad form with image
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      if (key == "image") {
-        formData.append(key, value);
-      } else {
-        formData.append(key, value);
-      }
-    });
+  // const onSubmit = (data) => {
+  //   // uplad form with image
+  //   const formData = new FormData();
+  //   formData.append('userid',user.id)
+  //   Object.entries(data).forEach(([key, value]) => {
+  //     if (key == "image") {
+  //       formData.append(key, value);
+  //     } else {
+  //       formData.append(key, value);
+  //     }
+  //   });
 
-    // console.log(formData)
+  //   axios
+  //     .post(`${CONFIG.SERVER_URL}/slotBooking`, formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     })
+  //     .then(({ data })=>{navigator('/')})
+  //     .catch(error=>alert('unexpected error occured'))
+  // };
+
+  const onSubmit = (data) => {
+    // data upload
+    data.userid = user.id;
+    setImage(data.image)
     axios
-      .post(`${CONFIG.SERVER_URL}/slotBooking`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      .post(`${CONFIG.SERVER_URL}/slotBooking`, data, {
+        // headers: {
+        //   "Content-Type": "multipart/form-data",
+        // },
       })
-      .then(({ data })=>{navigator('/')})
-      .catch(error=>alert('unexpected error occured'))
+      .then(({ data }) => {
+        // image upload
+        const formData = new FormData();
+        formData.append("image", image[0]);
+        formData.append("id", data._id);
+        axios
+          .post(`${CONFIG.SERVER_URL}/imageUpload/${data._id}`, formData)
+          .then(({ data }) => {
+          navigator('/')
+          });
+      })
+      .catch((error) => alert("unexpected error occured"));
   };
 
   return (
@@ -81,7 +107,7 @@ function ApplySlotsFrom() {
                   className="form-control"
                   {...register("address", {
                     required: true,
-                    minLength: 10,
+                    minLength: 4,
                     maxLength: 50,
                   })}
                 />
@@ -90,7 +116,7 @@ function ApplySlotsFrom() {
                     <span>address is required</span>
                   )}
                   {errors.address?.type === "minLength" && (
-                    <span>address must morethan or equal to 10 Character</span>
+                    <span>address must morethan or equal to 4 Character</span>
                   )}
                   {errors.address?.type === "maxLength" && (
                     <span>address must less than 50 Character</span>
@@ -232,6 +258,7 @@ function ApplySlotsFrom() {
                 <input
                   type="file"
                   className="form-control"
+                  // onChange={(e) => setImage(e.target.files)}
                   {...register("image", {
                     required: true,
                   })}

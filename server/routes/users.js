@@ -1,24 +1,18 @@
 var express = require("express");
 let bcrypt = require("bcrypt");
-// var multer = require('multer');
-// var upload = multer({dest:'uploads/'});
-const fileUpload = require("express-fileupload");
+var multer = require("multer");
 
 const { createUserToken, validateUsertoken } = require("../auth/userAuth");
 const {
   addUser,
   findUserByEmail,
   submitApplication,
+  getApplicatinByUserId,
 } = require("../controllers/user");
 const User = require("../model/user");
 const { isUserLogged } = require("../middlewares/userVarify");
 var router = express.Router();
 
-router.use(
-  fileUpload({
-    createParentPath: true,
-  })
-);
 
 /* GET users listing. */
 router.post("/signup", async (req, res) => {
@@ -88,13 +82,37 @@ router.post("/slotBooking", async (req, res) => {
     let objForServer = { ...body };
     delete objForServer.image;
     let data = await submitApplication(objForServer);
-    body.image.mv(`public/images/hello.jpg`, (err) => {
-      if (err) {
-         res.status(500).json({status:false,message:"Internal server error"});
-          return
-      }
-    });
     res.json(data);
-  } catch (error) {res.json({status:false,message:"internal sever error"})}
+  } catch (error) {
+    res.json({ status: false, message: "internal sever error" });
+  }
+});
+
+router.get("/prevApplications/:id", async (req, res) => {
+  try {
+    let { params } = req;
+    let data = await getApplicatinByUserId(params.id);
+    res.json({ status: true, data });
+  } catch (error) {
+    res.json({ status: false, message: "internal sever error" });
+  }
+});
+
+router.post("/imageUpload/:id", (req, res) => {
+    //     /* image upload multer start*/
+  // multer configaration
+  const upload = multer({
+    storage: multer.diskStorage({
+      destination: "./public/uploads/",
+      filename: function (req, file, cb) {
+        cb(null, req.imageName);
+      },
+    }),
+  }).single("image");
+
+  req.imageName = `${req.params.id}.jpg`;
+  upload(req, res, (err) => {});
+    //     /* image upload multer end*/
+  res.json("done");
 });
 module.exports = router;

@@ -4,11 +4,18 @@ import { useForm } from "react-hook-form";
 import "./Login.css";
 import axios from "axios";
 import CONFIG from "../../config/config";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function Login({ admin }) {
+  let isUserLooged = localStorage.getItem("userToken")
+  let isAdminLooged = localStorage.getItem("adminToken")
+  
   let [loginError, setLoginError] = useState("");
 
   let navigate = useNavigate();
+
+  // react-hook-form configoration
   const {
     register,
     handleSubmit,
@@ -20,8 +27,16 @@ function Login({ admin }) {
   if (admin) {
     api = "/admin/login";
     path = "/admin";
-    console.log("admin");
   }
+
+  useEffect(()=>{
+    if (admin && isAdminLooged) {
+      navigate('/admin')
+    }
+    if (!admin && isUserLooged) {
+      navigate('/')
+    }
+  },[])
 
   const onSubmit = (data) => {
     axios.post(`${CONFIG.SERVER_URL + api}`, data).then((response) => {

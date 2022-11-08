@@ -7,6 +7,7 @@ import CONFIG from "../../config/config";
 
 function ApplicantListComponent() {
   let [applications, setApplications] = useState([]);
+  let [selctedApplication,SetSelectedApplication] = useState({})
 
   function getApplications(params) {
     axios.get(`${CONFIG.SERVER_URL}/admin/applicationList`).then(({ data }) => {
@@ -58,148 +59,149 @@ function changeApplicationStaus(id,status){
                             {/* ++++++++ model button++++++++++ */}
                             <button
                               type="button"
-                              class="btn btn-primary"
+                              className="btn btn-primary"
                               data-bs-toggle="modal"
                               data-bs-target="#staticBackdrop"
+                              onClick={()=>SetSelectedApplication(application)}
                             >
                               View Details
                             </button>
                             {/* ++++++++ model button++++++++++ */}
 
                             <div
-                              class="modal fade"
+                              className="modal fade"
                               id="staticBackdrop"
                               data-bs-backdrop="static"
                               data-bs-keyboard="false"
-                              tabindex="-1"
+                              tabIndex="-1"
                               aria-labelledby="staticBackdropLabel"
                               aria-hidden="true"
                             >
-                              <div class="modal-dialog modal-dialog-scrollable">
-                                <div class="modal-content">
-                                  <div class="modal-header">
+                              <div className="modal-dialog modal-dialog-scrollable">
+                                <div className="modal-content">
+                                  <div className="modal-header">
                                     <h5
-                                      class="modal-title"
+                                      className="modal-title"
                                       id="exampleModalScrollableTitle"
                                     >
                                       Application Details
                                     </h5>
                                     <button
                                       type="button"
-                                      class="btn-close"
+                                      className="btn-close"
                                       data-bs-dismiss="modal"
                                       aria-label="Close"
                                     ></button>
                                   </div>
 
-                                  <div class="modal-body text-start text-black p-4">
+                                  <div className="modal-body text-start text-black p-4">
                                     <h4
-                                      class="mb-1"
+                                      className="mb-1"
                                       style={{ color: "#35558a" }}
                                     >
-                                      {application.name}
+                                      {selctedApplication.name}
                                     </h4>
                                     <hr
-                                      class=" mb-2"
+                                      className=" mb-2"
                                       style={{
                                         height: "0",
-                                        "background-color": "transparent",
+                                        "backgroundColor": "transparent",
                                         opacity: ".75",
-                                        "border-top": "2px dashed #9e9e9e;",
+                                        "borderTop": "2px dashed #9e9e9e;",
                                       }}
                                     />
 
-                                    <div class="d-flex justify-content-between">
-                                      <p class="small">Address</p>
-                                      <p class="small">{application.address}</p>
+                                    <div className="d-flex justify-content-between">
+                                      <p className="small">Address</p>
+                                      <p className="small">{selctedApplication.address}</p>
                                     </div>
                                     <hr className="m-0" />
-                                    <div class="d-flex justify-content-between">
-                                      <p class="small ">City</p>
-                                      <p class="small ">{application.city}</p>
+                                    <div className="d-flex justify-content-between">
+                                      <p className="small ">City</p>
+                                      <p className="small ">{selctedApplication.city}</p>
                                     </div>
                                     <hr className="m-0" />
-                                    <div class="d-flex justify-content-between ">
-                                      <p class="small">State</p>
-                                      <p class="small">{application.state}</p>
+                                    <div className="d-flex justify-content-between ">
+                                      <p className="small">State</p>
+                                      <p className="small">{selctedApplication.state}</p>
                                     </div>
                                     <hr className="m-0" />
-                                    <div class="d-flex justify-content-between ">
-                                      <p class="small">Phone</p>
-                                      <p class="small">{application.phone}</p>
+                                    <div className="d-flex justify-content-between ">
+                                      <p className="small">Phone</p>
+                                      <p className="small">{selctedApplication.phone}</p>
                                     </div>
                                     <hr className="m-0" />
-                                    <div class="d-flex justify-content-between ">
-                                      <p class="small">Email</p>
-                                      <p class="small">{application.email}</p>
+                                    <div className="d-flex justify-content-between ">
+                                      <p className="small">Email</p>
+                                      <p className="small">{selctedApplication.email}</p>
                                     </div>
                                     <hr className="m-0" />
-                                    <div class="d-flex justify-content-between ">
-                                      <p class="small">Company Name</p>
-                                      <p class="small">{application.company_name}</p>
+                                    <div className="d-flex justify-content-between ">
+                                      <p className="small">Company Name</p>
+                                      <p className="small">{selctedApplication.company_name}</p>
                                     </div>
                                     <hr className="m-0" />
-                                    <div class="d-flex justify-content-between ">
-                                      <p class="small">Email</p>
-                                      <p class="small">{application.email}</p>
+                                    <div className="d-flex justify-content-between ">
+                                      <p className="small">Company Logo</p>
+                                      <img style={{width:'50px'}} src={`${CONFIG.SERVER_URL}/uploads/${selctedApplication._id}.jpg`} alt="logo" />
                                     </div>
                                     <hr className="m-0" />
                                     <div >
-                                      <p class="small">Team and Background</p>
-                                      <p class="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{application.team_and_background}</p>
+                                      <p className="small">Team and Background</p>
+                                      <p className="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{selctedApplication.team_and_background}</p>
                                     </div>
                                     <div >
-                                      <p class="small">Company and Products</p>
-                                      <p class="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{application.company_and_products}</p>
+                                      <p className="small">Company and Products</p>
+                                      <p className="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{selctedApplication.company_and_products}</p>
                                     </div>
                                     <div >
-                                      <p class="small">What kind of problem try to solve</p>
-                                      <p class="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{application.problem}</p>
+                                      <p className="small">What kind of problem try to solve</p>
+                                      <p className="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{selctedApplication.problem}</p>
                                     </div>
                                     <div >
-                                      <p class="small">Solutions</p>
-                                      <p class="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{application.solution}</p>
+                                      <p className="small">Solutions</p>
+                                      <p className="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{selctedApplication.solution}</p>
                                     </div>
                                     <div >
-                                      <p class="small">Value proposition for the customer</p>
-                                      <p class="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{application.value_proposition}</p>
+                                      <p className="small">Value proposition for the customer</p>
+                                      <p className="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{selctedApplication.value_proposition}</p>
                                     </div>
                                     <div >
-                                      <p class="small">Competitive Advantages</p>
-                                      <p class="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{application.competitive_advantage}</p>
+                                      <p className="small">Competitive Advantages</p>
+                                      <p className="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{selctedApplication.competitive_advantage}</p>
                                     </div>
                                     <div >
-                                      <p class="small">Revenue Model</p>
-                                      <p class="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{application.revenue_model}</p>
+                                      <p className="small">Revenue Model</p>
+                                      <p className="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{selctedApplication.revenue_model}</p>
                                     </div>
                                     <div >
-                                      <p class="small">Market size</p>
-                                      <p class="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{application.market_size}</p>
+                                      <p className="small">Market size</p>
+                                      <p className="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{selctedApplication.market_size}</p>
                                     </div>
                                     <div >
-                                      <p class="small">Incubation Type</p>
-                                      <p class="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{application.incubation_type}</p>
+                                      <p className="small">Incubation Type</p>
+                                      <p className="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{selctedApplication.incubation_type}</p>
                                     </div>
                                     <div >
-                                      <p class="small">Buissiness Proposal</p>
-                                      <p class="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{application.proposal}</p>
+                                      <p className="small">Buissiness Proposal</p>
+                                      <p className="small" style={{border:'1px solid black',padding:'10px',minHeight:'40px'}}>{selctedApplication.proposal}</p>
                                     </div>
                                     
-                                    {/* <div class="d-flex justify-content-between">
-                                      <p class="fw-bold">Total</p>
-                                      <p class="fw-bold" style={{"color": "#35558a"}}>$2125.00</p>
+                                    {/* <div className="d-flex justify-content-between">
+                                      <p className="fw-bold">Total</p>
+                                      <p className="fw-bold" style={{"color": "#35558a"}}>$2125.00</p>
                                     </div> */}
                                   </div>
 
-                                  {/* <div class="modal-body">
+                                  {/* <div className="modal-body">
       
 
 
 
       </div> */}
-                                  {/* <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+                                  {/* <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-primary">Save changes</button>
       </div> */}
                                 </div>
                               </div>
@@ -220,7 +222,7 @@ function changeApplicationStaus(id,status){
                                       <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                       pending
                                       </button>
-                                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li onClick={()=>changeApplicationStaus(application._id,"accepted")}><Link className="dropdown-item" >Accept</Link></li>
                                         <li onClick={()=>changeApplicationStaus(application._id,"removed")}><Link className="dropdown-item" >Reject</Link></li>
                                       </ul>
@@ -232,7 +234,7 @@ function changeApplicationStaus(id,status){
                                       <button className="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                       Accepted
                                       </button>
-                                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         {/* <li ><Link className="dropdown-item" >Remove</Link></li> */}
                                         <li onClick={()=>changeApplicationStaus(application._id,"removed")}><Link className="dropdown-item" >Reject</Link></li>
                                       </ul>
@@ -240,22 +242,23 @@ function changeApplicationStaus(id,status){
                                   )
                                 }else if(application.status === "removed"){
                                   return(
-                                    <div className="dropdown">
-                                      <button className="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                      Rejected
-                                      </button>
-                                      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li onClick={()=>changeApplicationStaus(application._id,"accepted")}><Link className="dropdown-item" >Accept</Link></li>
-                                        {/* <li ><Link className="dropdown-item" >Accept</Link></li> */}
-                                      </ul>
-                                    </div>
+                                    <p className="text-danger text-center ">Redjected</p>
+                                    // <div className="dropdown">
+                                    //   <button className="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    //   Rejected
+                                    //   </button>
+                                    //   <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    //     <li onClick={()=>changeApplicationStaus(application._id,"accepted")}><Link className="dropdown-item" >Accept</Link></li>
+                                    //     {/* <li ><Link className="dropdown-item" >Accept</Link></li> */}
+                                    //   </ul>
+                                    // </div>
                                   )
                                 }
                               })()
                             }
                           </td>
                           {/* <button className="btn btn-success" onClick={()=>banOrUnban(applications._id)}>Unblock </button> 
-                           <button className="btn btn-danger"onClick={()=>banOrUnban(applications._id)}><i class="fa-solid fa-ban"></i></button>  */}
+                           <button className="btn btn-danger"onClick={()=>banOrUnban(applications._id)}><i className="fa-solid fa-ban"></i></button>  */}
                         </tr>
                       );
                     })}
