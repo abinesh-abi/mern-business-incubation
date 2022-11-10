@@ -11,6 +11,7 @@ function ApplySlotsFrom() {
   const user = useSelector((state) => state.user.value);
   let navigator = useNavigate();
   let [image, setImage] = useState(null);
+  let [imageErr, setImageErr] = useState('');
   // form handling
   const {
     register,
@@ -43,7 +44,11 @@ function ApplySlotsFrom() {
   const onSubmit = (data) => {
     // data upload
     data.userid = user.id;
-    setImage(data.image)
+    // setImage(data.image)
+    if (!image) {
+      setImageErr('Logo is required')
+      return
+    }
     axios
       .post(`${CONFIG.SERVER_URL}/slotBooking`, data, {
         // headers: {
@@ -56,12 +61,20 @@ function ApplySlotsFrom() {
         formData.append("image", image[0]);
         formData.append("id", data._id);
         axios
-          .post(`${CONFIG.SERVER_URL}/imageUpload/${data._id}`, formData)
+          .post(`${CONFIG.SERVER_URL}/imageUpload/${data._id}`, formData,{
+
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
           .then(({ data }) => {
           navigator('/')
           });
       })
-      .catch((error) => alert("unexpected error occured"));
+      .catch((error) => {
+        console.log(error)
+        alert("unexpected error occured")
+    });
   };
 
   return (
@@ -258,15 +271,16 @@ function ApplySlotsFrom() {
                 <input
                   type="file"
                   className="form-control"
-                  // onChange={(e) => setImage(e.target.files)}
-                  {...register("image", {
-                    required: true,
-                  })}
+                  onChange={(e) => setImage(e.target.files)}
+                  // {...register("image", {
+                  //   required: true,
+                  // })}
                 />
                 <span className="text-danger">
-                  {errors.image?.type === "required" && (
+                  {imageErr}
+                  {/* {errors.image?.type === "required" && (
                     <span>image is required</span>
-                  )}
+                  )} */}
                 </span>
               </div>
             </div>

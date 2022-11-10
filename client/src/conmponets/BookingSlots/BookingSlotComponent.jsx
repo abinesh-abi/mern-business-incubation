@@ -189,7 +189,7 @@ function acceptedCompanies() {
 
 
                         <select class="browser-default custom-select mb-3" onChange={(e)=>setModalData(e.target.value)}>
-                          {/* <option value='' selected>Choose Company</option > */}
+                          <option selected>Choose Company</option >
                             {
                               companyData.map((data,index)=>{
                                return <option value={data.company_name}>{data.company_name}</option>

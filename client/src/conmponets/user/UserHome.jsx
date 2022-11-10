@@ -109,7 +109,7 @@ function UserHome() {
                             {(function () {
                               if (application.status === "accepted") {
                                 return (
-                                  <p className=" text-secondary ">Accepted</p>
+                                  <p className=" text-success ">Accepted</p>
                                 );
                               }
                               if (application.status === "removed") {
@@ -134,9 +134,15 @@ function UserHome() {
         })()}
 
         <div className="d-flex justify-content-center">
+          {
+            prviousApplicatins[prviousApplicatins.length-1]?.status === "removed" || !prviousApplicatins[0]?
           <Link to="/applySlots" className="btn btn-success ">
             Apply Slotes
-          </Link>
+          </Link> :''
+          }
+          {
+            
+          }
         </div>
       </div>
 

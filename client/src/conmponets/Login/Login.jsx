@@ -44,7 +44,7 @@ function Login({ admin }) {
         if (admin) {
           localStorage.setItem("adminToken", response.data.adminToken);
         } else localStorage.setItem("userToken", response.data.userToken);
-        navigate(path);
+        navigate(path,{replace:true});
       } else setLoginError(response.data.message);
     });
   };

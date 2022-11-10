@@ -17,11 +17,20 @@ function ApplicantListComponent() {
   useEffect(() => {
     getApplications()
   }, []);
+
 function changeApplicationStaus(id,status){
     axios.patch(`${CONFIG.SERVER_URL}/admin/changeApplicatinStatus`,{id,status}).then(({ data }) => {
       getApplications()
     });
 }
+
+function deleteApplication(id) {
+  console.log(id)
+    axios.delete(`${CONFIG.SERVER_URL}/admin/deleteApplication/${id}`).then(({ data }) => {
+      getApplications()
+    });
+}
+console.log(applications)
   return (
     <>
       <section className="ftco-section">
@@ -43,6 +52,7 @@ function changeApplicationStaus(id,status){
                       <th>Company Name</th>
                       <th>Details</th>
                       <th>Status</th>
+                      <th>Delete</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -143,7 +153,9 @@ function changeApplicationStaus(id,status){
                                     <hr className="m-0" />
                                     <div className="d-flex justify-content-between ">
                                       <p className="small">Company Logo</p>
-                                      <img style={{width:'50px'}} src={`${CONFIG.SERVER_URL}/uploads/${selctedApplication._id}.jpg`} alt="logo" />
+                                      {
+                                        application._id && <img style={{width:'50px'}} src={`${CONFIG.SERVER_URL}/uploads/${selctedApplication._id}.jpg`} alt="logo" />
+                                      }
                                     </div>
                                     <hr className="m-0" />
                                     <div >
@@ -213,7 +225,7 @@ function changeApplicationStaus(id,status){
                             {
                               //  true?'hii':'hello'
                               (function () {
-                                if (application.status === "pending") {
+                                if (application.status === "pending" || application.status === '') {
                                   return (
                                     // <button className="btn btn-danger">
                                     //   pending
@@ -256,6 +268,9 @@ function changeApplicationStaus(id,status){
                                 }
                               })()
                             }
+                          </td>
+                          <td>
+                            <button onClick={()=> deleteApplication(application._id)} className="btn btn-danger">Delete</button>
                           </td>
                           {/* <button className="btn btn-success" onClick={()=>banOrUnban(applications._id)}>Unblock </button> 
                            <button className="btn btn-danger"onClick={()=>banOrUnban(applications._id)}><i className="fa-solid fa-ban"></i></button>  */}

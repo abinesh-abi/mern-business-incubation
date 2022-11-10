@@ -15,6 +15,14 @@ module.exports = {
       .catch(error=>reject(error))
     })
   },
+  deleteApplication :(_id)=>{
+    return new Promise((resolve, reject) => {
+      console.log(_id)
+      ApplicatinForm.findOneAndRemove({_id})
+      .then(data=>resolve(data))
+      .catch(error=>reject(error))
+    })
+  },
   getAcceptedCompaies:()=>{
     return new Promise((resolve, reject) => {
       ApplicatinForm.find({status:'accepted'},{company_name:1})

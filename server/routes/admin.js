@@ -2,7 +2,7 @@ var express = require("express");
 let bcrypt = require("bcrypt");
 const { createUserToken, validateUsertoken } = require("../auth/userAuth");
 const { findAllusers, findUserPaginated, findUserById, updateUserById, isEmailExits, } = require("../controllers/user");
-const { getAllApplications, getSlotDetails, updataSlot, changeApplicationStatus, getAcceptedCompaies } = require("../controllers/admin");
+const { getAllApplications, getSlotDetails, updataSlot, changeApplicationStatus, getAcceptedCompaies, deleteApplication } = require("../controllers/admin");
 var router = express.Router();
 
 let admin = {
@@ -146,6 +146,16 @@ router.patch('/changeApplicatinStatus',async(req,res)=>{
   try {
     let {id,status} = req.body
    let data = await changeApplicationStatus(id,status)
+    res.json({status:true,data})
+  } catch (error) {
+    res.json({status:false,message:"internal server error"})
+  }
+})
+
+router.delete('/deleteApplication/:id',(req,res)=>{
+  try {
+    let {id} = req.params
+   let data = deleteApplication(id)
     res.json({status:true,data})
   } catch (error) {
     res.json({status:false,message:"internal server error"})

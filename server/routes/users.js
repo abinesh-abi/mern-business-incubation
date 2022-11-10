@@ -94,6 +94,7 @@ router.get("/prevApplications/:id", async (req, res) => {
     let data = await getApplicatinByUserId(params.id);
     res.json({ status: true, data });
   } catch (error) {
+    console.log(error,'form++++++++++')
     res.json({ status: false, message: "internal sever error" });
   }
 });
@@ -111,8 +112,9 @@ router.post("/imageUpload/:id", (req, res) => {
   }).single("image");
 
   req.imageName = `${req.params.id}.jpg`;
-  upload(req, res, (err) => {});
+  upload(req, res, (err) => {console.log(err)});
     //     /* image upload multer end*/
   res.json("done");
+  console.log('Image route end')
 });
 module.exports = router;
