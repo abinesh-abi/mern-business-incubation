@@ -254,7 +254,7 @@ console.log(applications)
                                   )
                                 }else if(application.status === "removed"){
                                   return(
-                                    <p className="text-danger text-center ">Redjected</p>
+                                    <p className="text-danger text-center ">Rejected</p>
                                     // <div className="dropdown">
                                     //   <button className="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                     //   Rejected
